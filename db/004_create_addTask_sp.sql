@@ -8,18 +8,30 @@ CREATE PROCEDURE addTask(
     IN p_userId INT
 )
 BEGIN
-    DECLARE userExists INT DEFAULT 0;
+    taskBlock: BEGIN
+        DECLARE userExists INT DEFAULT 0;
 
-    -- Check if user exists
-    SELECT COUNT(*) INTO userExists
-    FROM users
-    WHERE id = p_userId;
+        -- 1. Check if userId is NULL
+        IF p_userId IS NULL THEN
+            SELECT 
+                FALSE AS success,
+                'UserId cannot be null' AS message;
+            LEAVE taskBlock;
+        END IF;
 
-    IF userExists = 0 THEN
-        SELECT 
-            FALSE AS success,
-            'User does not exist' AS message;
-    ELSE
+        -- 2. Check if user exists
+        SELECT COUNT(*) INTO userExists
+        FROM users
+        WHERE id = p_userId;
+
+        IF userExists = 0 THEN
+            SELECT 
+                FALSE AS success,
+                'User does not exist' AS message;
+            LEAVE taskBlock;
+        END IF;
+
+        -- 3. Insert task
         INSERT INTO tasks (title, description, dueDate, isCompleted, userId)
         VALUES (p_title, p_description, p_dueDate, p_isCompleted, p_userId);
 
@@ -27,5 +39,5 @@ BEGIN
             TRUE AS success,
             'Task created successfully' AS message,
             LAST_INSERT_ID() AS taskId;
-    END IF;
+    END taskBlock;
 END;

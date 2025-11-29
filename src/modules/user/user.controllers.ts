@@ -26,3 +26,28 @@ export const createUser = async (req: Request, res: Response) => {
     res.status(500).json(new ApiResponse(500, "Internal Server Error", error));
   }
 };
+
+export const loginUser = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json(
+          new ApiResponse(
+            400,
+            "Please provide required fields: email, password"
+          )
+        );
+    }
+
+    const user = await userServices.login(email, password);
+    console.log("User created successfully");
+    res.status(200).json(new ApiResponse(200, user.message, user.data));
+  } catch (error) {
+    console.error("ERROR in createuser:", error);
+    res.status(500).json(new ApiResponse(500, "Internal Server Error", error));
+  }
+};
+

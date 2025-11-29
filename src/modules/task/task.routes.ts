@@ -5,12 +5,12 @@ import { addTask, getTaskById, getTasks } from "./task.controllers";
 const router = Router();
 
 /// GET: get list of task
-router.get("/:userId", errorHandler, getTasks);
+router.get("/:userId", getTasks);
 
 // GET: get task by id
-router.get("/:userId/:taskId", errorHandler, getTaskById);
+router.get("/:userId/:taskId", getTaskById);
 
 /// POST: add task
-router.post("/add", errorHandler, addTask);
+router.post("/add", addTask);
 
 export default router;

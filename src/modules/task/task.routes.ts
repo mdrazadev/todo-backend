@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { errorHandler } from "../../utils/middlewares/errorHandler";
+import { errorHandler } from "../../middlewares/errorHandler";
 import { addTask, getTaskById, getTasks } from "./task.controllers";
 
 const router = Router();

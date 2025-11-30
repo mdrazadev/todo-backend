@@ -41,7 +41,7 @@ login_proc:BEGIN
     ELSE
         SELECT 
             TRUE AS success,
-            'Login successful' AS message,
+            'Login successfully' AS message,
             JSON_OBJECT(
                 'id', @id,
                 'name', @name,

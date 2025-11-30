@@ -24,3 +24,9 @@ export const login = async (email: string, password: string) => {
 
   return rows[0][0];
 };
+
+export const getUsers = async () => {
+  const [rows] = await pool.query<any[][]>("SELECT * FROM users");
+
+  return rows[0][0];
+};
